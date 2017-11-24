@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Language_array">
+        <item>English</item>
+        <item>தமிழ்</item>
+    </string-array>
+    <string-array name="Language_values">
+        <item>en</item>
+        <item>ta</item>
+    </string-array>
+    <string-array name="State_arrays">
+        <item>Tamil Nadu</item>
+    </string-array>
+
+    <string-array name="Violation_arrays">
+        <item>@string/Construction_Fencing      					  </item>
+        <item>@string/FlatteningofSandDunes                        </item>
+        <item>@string/Dischargeofeffluents_waste_constructiondebris   </item>
+        <item>@string/ConstructionofRoad</item>
+        <item>@string/Reclamationofwaterbodies                      </item>
+    </string-array>
+
+</resources>
