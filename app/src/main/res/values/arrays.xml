@@ -13,11 +13,11 @@
     </string-array>
 
     <string-array name="Violation_arrays">
-        <item>@string/Construction_Fencing      					  </item>
-        <item>@string/FlatteningofSandDunes                        </item>
-        <item>@string/Dischargeofeffluents_waste_constructiondebris   </item>
-        <item>@string/ConstructionofRoad</item>
-        <item>@string/Reclamationofwaterbodies                      </item>
+        <item>   @string/Construction_Fencing      					  </item>
+        <item>   @string/FlatteningofSandDunes                        </item>
+        <item>   @string/Dischargeofeffluents_waste_constructiondebris   </item>
+        <item>   @string/ConstructionofRoad</item>
+        <item>   @string/Reclamationofwaterbodies                      </item>
     </string-array>
 
 </resources>

@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Address;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOW_ACCURACY = 30;
     private static final int PERMISSIONS = 555;
     private static final int MAP = 666;
+    private static final int REQUEST_FINE_LOCATION = 777;
     private static final int PHOTO_SELECT_GALLERY = 111;
     private static final int PHOTO_SELECT_CAMERA = 222;
     private Uri imagepath;
@@ -73,14 +75,27 @@ public class MainActivity extends AppCompatActivity {
 
         layout = (LinearLayout) findViewById(R.id.linear);
 
-        Button imgView = (Button) findViewById(R.id.btnPhotos);
+        Button photoBtn = (Button) findViewById(R.id.btnPhotos);
         Button LocationBtn = (Button) findViewById(R.id.btnLocation);
-        Button CameraBtn = (Button) findViewById(R.id.btnSubmit);
+        Button submitBtn = (Button) findViewById(R.id.btnSubmit);
 
-        imgView.setOnClickListener(new View.OnClickListener() {
+
+        photoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                GalleryCameraDialog();
+                if ((ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED)&&
+                    (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)&&
+                    (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED)   )
+                {
+                    GalleryCameraDialog();
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),getResources().getText(R.string.Camera_request),Toast.LENGTH_SHORT).show();
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE},REQUEST_FINE_LOCATION);
+                }
+
             }
         });
 
@@ -88,9 +103,20 @@ public class MainActivity extends AppCompatActivity {
         LocationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent mapIntent = new Intent(MainActivity.this,MapsActivity.class);
-                mapIntent.putExtra("Accuracy", Accuracy);
-                startActivityForResult(mapIntent,MAP);
+                if ((ActivityCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)&&
+                        (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION)== PackageManager.PERMISSION_GRANTED))
+                {
+                    Intent mapIntent = new Intent(MainActivity.this,MapsActivity.class);
+                    mapIntent.putExtra("Accuracy", Accuracy);
+                    startActivityForResult(mapIntent,MAP);
+
+                }
+                else
+                {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                            REQUEST_FINE_LOCATION);
+                }
+
             }
             });
 
@@ -111,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             if(data!=null)
             {
 
-                imagepath = Uri.parse(data.getStringExtra("Path"))  ;
+                imagepath = data.getData();
                 for (int i = 0; i < 1; i++) {
                     final ImageView imageView = new ImageView(this);
                     imageView.setId(i);

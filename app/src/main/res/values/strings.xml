@@ -24,6 +24,7 @@
     <string name="Photo">Add Photos</string>
     <string name="Patient">Please be patient</string>
     <string name="Location">Location</string>
+    <string name="Camera_request">Please provide CAMERA and storage access to take pictures</string>
 
     <string name="title_activity_complaint">Complaint</string>
     <string name="Construction_Fencing">Construction/Fencing </string>

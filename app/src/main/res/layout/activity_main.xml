@@ -1,9 +1,16 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:nestedScrollingEnabled="true" tools:targetApi="lollipop">
 
     <TextView
         android:id="@+id/txtViolation"
@@ -24,7 +31,7 @@
 
     <Spinner
         android:id="@+id/spinner"
-        android:layout_width="371dp"
+        android:layout_width="366dp"
         android:layout_height="50dp"
 
         android:layout_gravity="bottom"
@@ -159,6 +166,8 @@
             android:focusable="true"
             android:orientation="horizontal">
 
+
+
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -178,6 +187,7 @@
 
     <Button
         android:id="@+id/btnSubmit"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
         android:layout_width="168dp"
         android:layout_height="107dp"
         android:layout_marginBottom="8dp"
@@ -188,6 +198,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
+        app:layout_constraintVertical_bias="0.034" />
 
 </android.support.constraint.ConstraintLayout>
+</ScrollView>
