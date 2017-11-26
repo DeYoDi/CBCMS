@@ -19,5 +19,15 @@
         <item>   @string/ConstructionofRoad</item>
         <item>   @string/Reclamationofwaterbodies                      </item>
     </string-array>
+    <string-array name="pref_accuracy">
+        <item>High Accuracy</item>
+        <item>Medium Accuracy</item>
+        <item>Low Accuracy</item>
+    </string-array>
+    <string-array name="Accuracy_Values">
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+    </string-array>
 
 </resources>

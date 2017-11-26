@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">விதிமீரேல்</string>
+    <string name="Auto">தானியங்கி</string>
+    <string name="Complaint">"புகாரிடு "</string>
+    <string name="Policy_terms">கொள்கை</string>
+    <string name="action_exit">வெளியிடு</string>
+    <string name="action_policy">கொள்கை</string>
+    <string name="action_settings">அமைப்பு</string>
+    <string name="action_settings_txt">அமைப்புகள் மாற்ற </string>
+    <string name="country_prompt">நாட்டினை தேர்வு செய்க</string>
+    <string name="district_prompt">மாவட்டத்தினை தேர்வு செய்க</string>
+    <string name="voilation_prompt">விதிமீறலை தேர்வு செய்க</string>
+    <string name="State">மாநிலம்</string>
+    <string name="District">மாவட்டம்</string>
+    <string name="Violation">விதி மீறல்</string>
+    <string name="Address">முகவரி</string>
+    <string name="Add_Photo">புகைப்படம்</string>
+    <string name="Submit">சமர்ப்பிக்க</string>
+    <string name="Patient">பொறுமை காக்க</string>
+    <string name="ReqAccuracy">தேவையான துல்லியம் :</string>
+    <string name="AttainedAccuracy">எட்டப்பட்ட துல்லியம் :</string>
+    <string name="state_prompt">மாநிலத்தை தேர்வு செய்க</string>
+    <string name="Auto_Locate">தானியங்கு இடமறிதல்</string>
+    <string name="Accuracy">துல்லியம்(மீட்டர்)</string>
+    <string name="Lang_change">மொழியை மாற்ற</string>
+    <string name="Location">இடம்</string>
+    <string name="Option_Txt">ஏதேனும் ஒன்றை தேர்ந்தெடுக்கவும்</string>
+
+    <string name="Construction_Fencing"	>கட்டுமானம்/ ஆக்கிரமிப்பு வேலி</string>
+    <string name="FlatteningofSandDunes">மணற்குன்று பாதிப்பு</string>
+    <string name="Dischargeofeffluents_waste_constructiondebris">கழிவு நீர்/கட்டுமான கழிவு கொட்டுதல்</string>_
+    <string name="ConstructionofRoad">சாலை கட்டுமானம் </string>
+    <string name="Reclamationofwaterbodies">நீர்நிலை ஆக்கிரமிப்பு</string>
+    <string name="Chennai">சென்னை</string>
+    <string name="Cuddalore">கடலூர்</string>
+    <string name="Kanchipuram">காஞ்சிபுரம்</string>
+    <string name="Kanyakumari">கன்னியாகுமாரி</string>
+    <string name="Nagapattinam">நாகப்பட்டினம்</string>
+    <string name="Ramanathapuram">ராமநாதபுரம்</string>
+    <string name="Thanjavur">தஞ்சாவூர்</string>
+    <string name="Thoothukudi">தூத்துக்குடி</string>
+    <string name="Tirunelveli">திருநெல்வேலி</string>
+    <string name="Thiruvallur">திருவள்ளூர்</string>
+    <string name="Thiruvarur">திருவாரூர்</string>
+    <string name="Villupuram">விழுப்புரம்</string>
+    <string name="TamilNadu">தமிழ்நாடு</string>
+</resources>

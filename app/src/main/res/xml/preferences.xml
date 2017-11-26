@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <PreferenceCategory
+            android:title="@string/action_settings"
+            android:key="sync_category">
+
+            <SwitchPreference
+                android:key="auto_locate"
+                android:summary="@string/Auto_Locate"
+                android:title="@string/Auto_Locate"
+                android:defaultValue="true"/>
+
+            <ListPreference
+                android:key="@string/Accuracy_preference"
+                android:title="@string/Accuracy"
+                android:inputType="number"
+                android:summary="Define how accurate the location should be"
+                android:entries="@array/pref_accuracy"
+                android:entryValues="@array/Accuracy_Values"
+                android:dependency="auto_locate"/>
+
+            <ListPreference  android:key="@string/Locale_preference"
+                android:title="@string/Lang_change"
+                android:summary="Define the preferred language"
+                android:defaultValue="en"
+                android:entries="@array/Language_array"
+                android:entryValues="@array/Language_values"
+                />
+
+        </PreferenceCategory>
+
+
+</PreferenceScreen>

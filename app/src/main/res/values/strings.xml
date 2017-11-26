@@ -2,8 +2,8 @@
     <string name="app_name">CBCMS</string>
     <string name="Default_Language">English</string>
     <string name="Default_Accuracy">HIGH</string>
-    <string name="Locale_preference">Language</string>
-    <string name="Accuracy_preference">Accuracy</string>
+    <string name="Locale_preference">Pref_Language</string>
+    <string name="Accuracy_preference">Pref_Accuracy</string>
     <string name="complaint">Complaint</string>
     <string name="Location_Fix">Got Location</string>
     <string name="Location_Msg">Fix with the location?</string>
@@ -19,12 +19,15 @@
     <string name="District">District</string>
     <string name="Violation">Violation</string>
     <string name="Address">Address</string>
-    <string name="Add_Photo">Add photo</string>
+    <string name="Add_Photo">Add photos</string>
     <string name="Submit">Submit</string>
     <string name="Photo">Add Photos</string>
     <string name="Patient">Please be patient</string>
     <string name="Location">Location</string>
     <string name="Camera_request">Please provide CAMERA and storage access to take pictures</string>
+    <string name="Invalid_data">Location and Address not valid</string>
+    <string name="Memory_full_Photo">No memory to add a photo</string>
+    <string name="Accuracy">Accuracy</string>
 
     <string name="title_activity_complaint">Complaint</string>
     <string name="Construction_Fencing">Construction/Fencing </string>
@@ -39,8 +42,31 @@
     <string name="default_info_snippet">No places found, because location permission is disabled.</string>
     <string name="option_get_place">Get place</string>
     <string name="pick_place">Choose a place</string>
+    <string name="Auto_Locate">Auto Location</string>
+    <string name="Lang_change">Change Language</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_maps">Map</string>
     <string name="coast_based_complaint_management_system">Coast Based Complaint Management System</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+
+    <string-array name="multi_select_list_preference_default_value" />
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Notifications</string>
+
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+
+
+
 </resources>
