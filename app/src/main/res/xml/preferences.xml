@@ -15,14 +15,15 @@
                 android:key="@string/Accuracy_preference"
                 android:title="@string/Accuracy"
                 android:inputType="number"
-                android:summary="Define how accurate the location should be"
+                android:summary="@string/Accuracy_description"
                 android:entries="@array/pref_accuracy"
+                android:defaultValue="10"
                 android:entryValues="@array/Accuracy_Values"
                 android:dependency="auto_locate"/>
 
             <ListPreference  android:key="@string/Locale_preference"
                 android:title="@string/Lang_change"
-                android:summary="Define the preferred language"
+                android:summary="@string/Lang_change_description"
                 android:defaultValue="en"
                 android:entries="@array/Language_array"
                 android:entryValues="@array/Language_values"

@@ -24,8 +24,16 @@
     <string name="Auto_Locate">தானியங்கு இடமறிதல்</string>
     <string name="Accuracy">துல்லியம்(மீட்டர்)</string>
     <string name="Lang_change">மொழியை மாற்ற</string>
+    <string name="Lang_change_description">உங்கள் விருப்பமான மொழியை வரையறுக்கவும்</string>
     <string name="Location">இடம்</string>
     <string name="Option_Txt">ஏதேனும் ஒன்றை தேர்ந்தெடுக்கவும்</string>
+    <string name="Memory_full_Photo">புகைப்படத்தை சேர்க்க நினைவகம் இல்லை</string>
+    <string name="Accuracy_description">இடம் எவ்வளவு துல்லியமாக இருக்க வேண்டும் என்பதை வரையறுக்கவும்</string>
+    <string name="Photos_delete_failed">புகைப்படங்களை நீக்க முடியவில்லை!!!</string>
+    <string name="Photos_delete_success">புகைப்படங்கள் வெற்றிகரமாக நீக்கப்பட்டது</string>
+    <string name="Email_success">மின்னஞ்சல் வெற்றிகரமாக அனுப்பப்பட்டது!!!</string>
+    <string name="Ok">ஆம்</string>
+    <string name="Cancel">இல்லை</string>
 
     <string name="Construction_Fencing"	>கட்டுமானம்/ ஆக்கிரமிப்பு வேலி</string>
     <string name="FlatteningofSandDunes">மணற்குன்று பாதிப்பு</string>

@@ -4,6 +4,8 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,6 +40,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.util.List;
+import java.util.Locale;
+
 public class MapsActivity extends ActionBarActivity implements OnMapReadyCallback {
 
     private static final String TAG = MapsActivity.class.getSimpleName();
@@ -65,6 +70,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
     // The geographical location where the device is currently located. That is, the last-known
     // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
+    private Location mCurrKnownLocation;
     private LocationCallback mLocationCallback = null;
     private LocationRequest mLocationRequest = null;
     private boolean mRequestingLocationUpdates = false;
@@ -150,9 +156,13 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         }
         if(item.getItemId()== android.R.id.home)
         {
-            if(mLastKnownLocation != null)
+            if(mCurrKnownLocation != null)
             {
-                okReturn(mLastKnownLocation);
+                okReturn(mCurrKnownLocation);
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),getResources().getString(R.string.Loc_not_received),Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -164,7 +174,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
         if(location!=null) {
             intent.putExtra("Latitude", location.getLatitude());
             intent.putExtra("Longitude", location.getLongitude());
-            intent.putExtra("Accuracy", location.getAccuracy());
+            intent.putExtra("Accuracy_Received", String.valueOf(location.getAccuracy()));
+
         }
         setResult(RESULT_OK, intent);
         finish();
@@ -194,25 +205,21 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 View infoWindow = getLayoutInflater().inflate(R.layout.custom_info_contents,
                         (FrameLayout) findViewById(R.id.map), false);
 
-                TextView title = ((TextView) infoWindow.findViewById(R.id.title));
+                TextView title = infoWindow.findViewById(R.id.title);
                 title.setText(marker.getTitle());
 
-                TextView snippet = ((TextView) infoWindow.findViewById(R.id.snippet));
+                TextView snippet = infoWindow.findViewById(R.id.snippet);
                 snippet.setText(marker.getSnippet());
 
                 return infoWindow;
             }
         });
-
         // Prompt the user for permission.
         getLocationPermission();
-
         // Turn on the My Location layer and the related control on the map.
         updateLocationUI();
-
-
         // Get the current location of the device and set the position of the map.
-       getDeviceLocation();
+        getDeviceLocation();
 
     }
 
@@ -306,19 +313,41 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                 mLocationRequest.setInterval(0);
                 mLocationRequest.setFastestInterval(0);
                 mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                final Geocoder geocoder;
+                List<Address> addresses;
+                geocoder = new Geocoder(this, Locale.getDefault());
 
                 mLocationCallback = new LocationCallback() {
                     @Override
                     public void onLocationResult(LocationResult locationResult) {
                         for (Location location : locationResult.getLocations()) {
-
-                            mLastKnownLocation = location;
-                            LatLng newLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            Marker markerName=null;
+                            mCurrKnownLocation = location;
+                            LatLng newLatLng = new LatLng(mCurrKnownLocation.getLatitude(), mCurrKnownLocation.getLongitude());
                             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
                             mMap.moveCamera(CameraUpdateFactory.newLatLng(newLatLng));
                             mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom));
 
-                            if (location.getAccuracy() < 30) {
+                            mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+                                @Override
+                                public void onCameraMove() {
+                                    mMap.clear();
+                                    try {
+
+                                        mMap.addMarker(new MarkerOptions().position(new LatLng(mCurrKnownLocation.getLatitude(),mCurrKnownLocation.getLongitude()))
+                                                .title(geocoder.getFromLocation(mCurrKnownLocation.getLatitude(),
+                                                        mCurrKnownLocation.getLongitude(), 1).
+                                                        get(0).getAddressLine(0)).draggable(true)).showInfoWindow();
+
+                                    }catch (Exception ex)
+                                    {
+                                        Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            });
+
+                            if (mCurrKnownLocation.getAccuracy() < 30) {
                                 if(zoom<CLOSE_ZOOM){
                                     zoom++;
                                 }
@@ -326,8 +355,8 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
                             } else {
                                 zoom = DEFAULT_ZOOM;
                             }
-                            if (location.getAccuracy() < Accuracy) {
-                                okReturn(location);
+                            if (mCurrKnownLocation.getAccuracy() < Accuracy) {
+                                okReturn(mCurrKnownLocation);
 
                             }
                         }
@@ -382,7 +411,7 @@ public class MapsActivity extends ActionBarActivity implements OnMapReadyCallbac
 
 
             // put the String to pass back into an Intent and close this activity
-             okReturn(mLastKnownLocation);
+             okReturn(mCurrKnownLocation);
             //// Get the likely places - that is, the businesses and other points of interest that
             //// are the best match for the device's current location.
             //@SuppressWarnings("MissingPermission") final

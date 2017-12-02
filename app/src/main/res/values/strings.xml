@@ -28,6 +28,15 @@
     <string name="Invalid_data">Location and Address not valid</string>
     <string name="Memory_full_Photo">No memory to add a photo</string>
     <string name="Accuracy">Accuracy</string>
+    <string name="Accuracy_description">Define how accurate the location should be</string>
+    <string name="Photos_delete">Delete Photos?</string>
+    <string name="Photos_delete_failed">Failed to delete the photos!!!</string>
+    <string name="Photos_delete_success">Photos deleted successfully</string>
+    <string name="Email_success">Email sent successfully!!!</string>
+    <string name="Ok">Ok</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Reset">Reset</string>
+    <string name="Loc_not_received">Location not yet found</string>
 
     <string name="title_activity_complaint">Complaint</string>
     <string name="Construction_Fencing">Construction/Fencing </string>
@@ -44,6 +53,7 @@
     <string name="pick_place">Choose a place</string>
     <string name="Auto_Locate">Auto Location</string>
     <string name="Lang_change">Change Language</string>
+    <string name="Lang_change_description">Define your preferred language</string>
 
     <!-- Strings related to login -->
     <string name="title_activity_maps">Map</string>

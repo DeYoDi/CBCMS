@@ -1,7 +1,6 @@
 package com.dyd.cbcms;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -40,7 +38,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -64,12 +61,14 @@ public class MainActivity extends AppCompatActivity {
     private String District;
     private String Violation;
     private String Address;
-    private Double Received_Accuracy;
+    private String Received_Accuracy;
     private LinearLayout layout;
     private int imageId =1;
-    private String imgName;
     private HashMap<String,String> imagemap;
     private ArrayList<String> pathString;
+    private long PhotosSize=0;
+    private int count=0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,22 +76,22 @@ public class MainActivity extends AppCompatActivity {
 
         String Language="null";
         try{
-            // Get Preferences
-            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-            // Default language is english
-            Language = preferences.getString(getResources().getString(R.string.Locale_preference),"en");
-            // Default accuracy is HIGH
-            Accuracy = Integer.valueOf(preferences.getString(getResources().getString(R.string.Accuracy_preference),"15"));
+                // Get Preferences
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                // Default language is english
+                Language = preferences.getString(getResources().getString(R.string.Locale_preference),"en");
+                // Default accuracy is HIGH
+                Accuracy = Integer.valueOf(preferences.getString(getResources().getString(R.string.Accuracy_preference),"10"));
 
-        //  Toast.makeText(getApplicationContext(),Language + ","+Accuracy,Toast.LENGTH_LONG).show();
-            // Setting the app language
-            Locale locale = new Locale(Language);
-            setLocale(locale);
-        }catch (Exception ex)
-        {
-            Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
-            ex.printStackTrace();
-        }
+                // Setting the app language
+                Locale locale = new Locale(Language);
+                setLocale(locale);
+            }
+        catch (Exception ex)
+            {
+                Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();
+                ex.printStackTrace();
+            }
       //  Toast.makeText(getApplicationContext(),Language + ","+Accuracy,Toast.LENGTH_LONG).show();
         // Set content Layout after setting the language
         setContentView(R.layout.activity_main);
@@ -114,15 +113,19 @@ public class MainActivity extends AppCompatActivity {
         final Button submitBtn = (Button) findViewById(R.id.btnSubmit);
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
 
+        txtLoc     = (TextView) findViewById(R.id.txtLocation);
+        txtAddress = (TextView) findViewById(R.id.txtAddress);
         pathString = new ArrayList<>();
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.bounce);
-                //submitBtn.startAnimation(myAnim);
+                final Animation myAnim = AnimationUtils.loadAnimation(MainActivity.this, R.anim.bounce);
+                submitBtn.startAnimation(myAnim);
                 Violation = spinner.getSelectedItem().toString();
-                SendEmail();
+              SendEmail();
+              //  ShareActivity share = new ShareActivity();
+              //  share.send(MainActivity.this);
             }
         });
 
@@ -130,26 +133,27 @@ public class MainActivity extends AppCompatActivity {
         photoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                long length=0;
+
                 for(String pa : pathString)
                 {
                     if (pa != null)
                     {
                         File fileIn = new File(pa);
-                        length = fileIn.length();
-                        length = length/1024;
+                        PhotosSize = fileIn.length();
+                        PhotosSize = PhotosSize/(1024*1024);
                     }
                 }
-                    if(length<20)
+//                    if(PhotosSize<(long)20)
+                   if(layout.getChildCount()<(long)3)
                     {
-                  //      GalleryCameraDialog();
+                        // GalleryCameraDialog();
+                        Intent intent = new Intent(MainActivity.this,CameraActivty.class);
+                        startActivityForResult(intent,PHOTO_SELECT_CAMERA);
                     }
                     else
                     {
-                      //  Toast.makeText(getApplicationContext(),getResources().getText(R.string.Memory_full_Photo),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),getResources().getText(R.string.Memory_full_Photo),Toast.LENGTH_LONG).show();
                     }
-                GalleryCameraDialog();
-
 
             }
         });
@@ -183,22 +187,21 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder Body = new StringBuilder();
 
         Intent intent = new Intent(Intent.ACTION_SEND_MULTIPLE);
-       // Intent intent = new Intent(Intent.ACTION_SENDTO);
 
         Body.append("Complaint Details:");
 
         Body.append("\n");
         Body.append("State              :" + State);
         Body.append("\n");
-        Body.append("District           :" + District);
+        Body.append("District:" + District);
         Body.append("\n");
-        Body.append("Violation          :" + Violation);
+        Body.append("Violation\t\t:" + Violation);
         Body.append("\n");
-        Body.append("Location           :" + Html.fromHtml("<a href='https://www.google.com/maps/?q="+Latitude+","+Longitude+"'>"+ Latitude +","+Longitude +"</a>"));
+        Body.append("Location\t\t:" + "https://www.google.com/maps/?q="+Latitude+","+Longitude);
         Body.append("\n");
-        Body.append("Accuracy in meters :" + Received_Accuracy);
+        Body.append("Accuracy in meters\t\t:" + Received_Accuracy);
         Body.append("\n");
-        Body.append("Address Line       : "+Address );
+        Body.append("Address Line\t\t: "+Address );
 
         ArrayList<Uri> uris = new ArrayList<>();
 
@@ -224,7 +227,8 @@ public class MainActivity extends AppCompatActivity {
         intent.setType("message/rfc822");
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
 
-        startActivity(intent);
+        try{startActivityForResult(intent,777);}catch (Exception ex){Toast.makeText(getApplicationContext(),ex.toString(),Toast.LENGTH_LONG).show();}
+
 
     }
 
@@ -290,23 +294,35 @@ public class MainActivity extends AppCompatActivity {
                 System.exit(0);
 
                 return true;
+            case R.id.reset:
+
+                clearContent();
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    public void clearContent()
+    {
+        txtAddress.setText("");
+        txtAddress.setEnabled(true);
+        txtLoc.setText("");
+        txtLoc.setEnabled(true);
+        if(layout.getChildCount()>0)
+        {
+            layout.removeAllViews();
+        }
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        txtLoc     = (TextView) findViewById(R.id.txtLocation);
-        txtAddress = (TextView) findViewById(R.id.txtAddress);
-
         if (requestCode == PHOTO_SELECT_CAMERA && resultCode == RESULT_OK) {
 
             if(data!=null)
             {
-
                 imagepath = Uri.parse(data.getStringExtra("Path"))  ;
                 imagepath_str = data.getStringExtra("Path");
-
                 for (int i = 0; i < 1; i++) {
                     final ImageView imageView = new ImageView(this);
                     imageView.setId(imageId);
@@ -316,28 +332,34 @@ public class MainActivity extends AppCompatActivity {
                     imageView.setMaxHeight(250);
                     imageView.setMaxWidth(250);
                     imageView.setAdjustViewBounds(true);
-
                     layout.addView(imageView);
                     imageId++;
                     imagemap.put(String.valueOf(imageId),imagepath_str);
-
                     pathString.add(imagepath_str);
-                    //imageView.setOnLongClickListener(new View.OnLongClickListener() {
-                    //    @Override
-                    //    public boolean onLongClick(View view) {
-                    //        removepath(imagemap.get(imageId));
-                    //        layout.removeView(imageView);
-                    //        imagemap.remove(String.valueOf(imageId));
-                    //        return true;
-                    //    }
-                    //});
                     layout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             if(layout.getChildCount() > 0)
                             {
-                                layout.removeAllViews();
-                                pathString.clear();
+                                DeletePictures();
+
+                                //if(DeletePictures())
+                                //{
+                                //    layout.removeAllViews();
+                                //    pathString.clear();
+                                //    PhotosSize = 0;
+                                //
+                                //    Toast.makeText(getApplicationContext(),
+                                //            getResources().getString(R.string.Photos_delete_success),
+                                //            Toast.LENGTH_SHORT).show();
+                                //}
+                                //else
+                                //{
+                                //    Toast.makeText(getApplicationContext(),
+                                //            getResources().getString(R.string.Photos_delete_failed),
+                                //            Toast.LENGTH_SHORT).show();
+                                //}
+
                             }
 
                         }
@@ -396,10 +418,10 @@ public class MainActivity extends AppCompatActivity {
                 // get String data from Intent
                 Latitude     = data.getDoubleExtra("Latitude", 13.0500);
                 Longitude    = data.getDoubleExtra("Longitude", 80.2824);
-                Received_Accuracy = data.getDoubleExtra("Accuracy", 20);
+                Received_Accuracy = data.getStringExtra("Accuracy_Received");
+
                 txtLoc.setText(Latitude + " " + Longitude);
                 txtLoc.setEnabled(false);
-
 
                 try{
                     Geocoder geocoder;
@@ -414,6 +436,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }catch (Exception ex)
                 {
+                    ex.printStackTrace();
                     txtAddress.setText("Address Not Available");
                     txtAddress.setEnabled(true);
                 }
@@ -427,18 +450,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    private  void removepath(String path)
-    {
-        for(String pa: pathString)
-        {
-            if(pa.equals(path))
-            {
-                pathString.remove(pa);
-            }
-
-        }
-    }
     @SuppressWarnings("deprecation")
     private void setLocale(Locale locale){
         Resources resources = getResources();
@@ -455,6 +466,63 @@ public class MainActivity extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(configuration,
                 getBaseContext().getResources().getDisplayMetrics());
     }
+
+    public void DeletePictures()
+    {
+        final CharSequence[] options = { getResources().getString(R.string.Ok), getResources().getString(R.string.Cancel)};
+        count =0;
+        if(layout.getChildCount()>0)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+            builder.setTitle(getResources().getString(R.string.Photos_delete));
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (options[item].equals(getResources().getString(R.string.Ok)))
+                    {
+                        for(String pa : pathString)
+                        {
+                            if (pa != null)
+                            {
+                                File file= new File(pa);
+                                file.delete();
+                                if(!file.exists())
+                                {
+                                    count++;
+                                }
+
+                            }
+                        }
+                        if(count == pathString.size())
+                        {
+                            layout.removeAllViews();
+                            pathString.clear();
+                            PhotosSize = 0;
+
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.Photos_delete_success),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),
+                                    getResources().getString(R.string.Photos_delete_failed),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else if (options[item].equals(getResources().getString(R.string.Cancel)))
+                    {
+                        //Do Nothing
+
+                    }
+                }
+            });
+            builder.show();
+        }
+
+    }
+
+
 
     public void GalleryCameraDialog() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
